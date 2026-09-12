@@ -1,0 +1,10 @@
+# Data directories
+data/raw/
+data/processed/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# Logs
+pipeline_crash.log

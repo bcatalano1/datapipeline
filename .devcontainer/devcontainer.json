@@ -1,0 +1,29 @@
+{
+    "name": "Fedora PySpark Pipeline",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "remoteUser": "devuser",
+    "postCreateCommand": "pip3 install -r requirements.txt",
+    "mounts": [
+        "source=${localEnv:USERPROFILE}/.aws,target=/home/devuser/.aws,type=bind,readonly",
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+    ],
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash"
+            },
+            "extensions": [
+                "amazonwebservices.aws-toolkit-vscode",
+                "ms-python.python",
+                "ms-toolsai.jupyter",
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "github.copilot-chat"
+            ]
+        }
+    }
+}
