@@ -1,10 +1,15 @@
+.env
 # Data directories
-data/raw/
-data/processed/
+data/*
+!data/.gitkeep
 
 # Python caches
 __pycache__/
 *.pyc
+.pytest_cache/
 
 # Logs
-pipeline_crash.log
+logs/*
+
+.DS_Store
+spark-warehouse/

@@ -24,7 +24,8 @@ RUN dnf update -y && \
     findutils \
     which \
     grep  \
-    docker && \
+    docker \
+    docker-compose && \
     dnf clean all
 
     ARG USERNAME=devuser

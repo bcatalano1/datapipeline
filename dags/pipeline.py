@@ -34,6 +34,7 @@ specialized_df = specialized_df.withColumn(
 )
 #add a new column to the dataframe that indicates the length of the directions column
 specialized_df = specialized_df.withColumn("direction_char_length", length(col("directions")))
+specialized_df = specialized_df.dropDuplicates(["title", "ingredients", "directions"])
 #write the specialized dataframe to a parquet file, partitioned by the source column
 specialized_df.write \
     .partitionBy("source") \
