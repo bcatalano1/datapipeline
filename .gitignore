@@ -13,3 +13,6 @@ logs/*
 
 .DS_Store
 spark-warehouse/
+recipe_features/feature_repo/data/registry.db
+recipe_features/feature_repo/data/online_store.db
+*.parquet

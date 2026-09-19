@@ -2,3 +2,9 @@ boto3
 pyspark 
 jupyterlab 
 pandas
+pinecone-client
+sentence-transformers
+pyarrow
+langchain-text-splitters
+feast
+python-dotenv

@@ -39,6 +39,7 @@ window_query = """
         SELECT 
             title, 
             ingredients,
+            event_timestamp,
             directions,
             CASE 
                 WHEN LOWER(title) LIKE '%sourdough%' THEN 'Sourdough'
@@ -53,6 +54,7 @@ window_query = """
         dough_type,
         title,
         instruction_length,
+        event_timestamp,
         RANK() OVER (PARTITION BY dough_type ORDER BY instruction_length DESC) as complexity_rank
     FROM CategorizedRecipes
 """

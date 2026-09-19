@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, lower, length, when
+from pyspark.sql.functions import col, lower, length, when, current_timestamp, monotonically_increasing_id
 
 #initialize Spark session
 spark = SparkSession.builder\
@@ -35,6 +35,10 @@ specialized_df = specialized_df.withColumn(
 #add a new column to the dataframe that indicates the length of the directions column
 specialized_df = specialized_df.withColumn("direction_char_length", length(col("directions")))
 specialized_df = specialized_df.dropDuplicates(["title", "ingredients", "directions"])
+# Add the primary key
+specialized_df = specialized_df.withColumn("recipe_id", monotonically_increasing_id())
+# Append the timestamp required by Feast
+specialized_df = specialized_df.withColumn("event_timestamp", current_timestamp())
 #write the specialized dataframe to a parquet file, partitioned by the source column
 specialized_df.write \
     .partitionBy("source") \
