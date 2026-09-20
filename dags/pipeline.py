@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, lower, length, when, current_timestamp, monotonically_increasing_id
+from pyspark.sql.functions import col, lower, length, when, current_timestamp,xxhash64, abs
 
 #initialize Spark session
 spark = SparkSession.builder\
@@ -24,7 +24,8 @@ clean_df = clean_df.withColumn("directions_lower", lower(col("directions")))
 #filter the dataframe to only include recipes that are relevant to specialized baking and cooking techniques
 specialized_df = clean_df.filter(
     col("title_lower").rlike("sourdough boule|batard|sicilian pizza|grandma pizza|garlic knot|banana bread coffee cake|fettuccine") |
-    col("ingredients").rlike("psyllium husk|starter discard|00 flour")
+    col("ingredients").rlike("psyllium husk|starter discard|00 flour") |
+    col("directions_lower").rlike("high altitude|elevation|altitude adjustment")
 )
 
 #add a new column to the dataframe that indicates whether the recipe requires altitude adjustment based on the presence of certain keywords in the instructions
@@ -36,7 +37,7 @@ specialized_df = specialized_df.withColumn(
 specialized_df = specialized_df.withColumn("direction_char_length", length(col("directions")))
 specialized_df = specialized_df.dropDuplicates(["title", "ingredients", "directions"])
 # Add the primary key
-specialized_df = specialized_df.withColumn("recipe_id", monotonically_increasing_id())
+specialized_df = specialized_df.withColumn("recipe_id", abs(xxhash64(col("title"), col("source"))).cast("string"))
 # Append the timestamp required by Feast
 specialized_df = specialized_df.withColumn("event_timestamp", current_timestamp())
 #write the specialized dataframe to a parquet file, partitioned by the source column

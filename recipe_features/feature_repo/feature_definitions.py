@@ -11,7 +11,7 @@ recipe_source = FileSource(
     timestamp_field="event_timestamp"
 )
 
-recipe_entity = Entity(name = "recipe", join_keys=["recipe_id"])
+recipe_entity = Entity(name = "recipe", join_keys=["recipe_id"], value_type=FieldType.STRING)
 
 # Define the Feature View
 recipe_feature_view = FeatureView(
